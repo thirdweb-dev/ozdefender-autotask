@@ -4,7 +4,7 @@ const {
   DefenderRelayProvider,
 } = require("defender-relay-client/lib/ethers");
 
-const ForwarderAddress = "0xaAf2a7C715486A6a20dD8eE629c932b96C09eE6B";
+const ForwarderAddress = "0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81";
 const speed = "fastest";
 
 const ForwarderAbi = [
@@ -176,7 +176,7 @@ async function handler(event) {
       permitSignature,
       tokenAmountToApprove
     );
-  } else if (type == "meta-tx") {
+  } else if (type == "forward") {
     // Gasless tx
     const { request, signature } = event.request.body;
 
