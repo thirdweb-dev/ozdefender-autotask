@@ -198,8 +198,7 @@ async function handler(event) {
   }
 
   console.log(`Sent meta-tx: ${tx.hash}`);
-  const receipt = await tx.wait();
-  return { txHash: tx.hash, receipt: receipt, txResponse: tx };
+  return { txHash: tx.hash, txResponse: tx };
 }
 
 module.exports = {
