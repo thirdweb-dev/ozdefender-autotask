@@ -123,24 +123,14 @@ async function relayGeneric(forwarder, request, signature) {
 
 async function relayTokenApproval(
   permitContract,
-  permitSignature,
-  tokenAmountToApprove
+  permitMessage,
+  permitSignature
 ) {
   // Tx args
-  const { owner, spender, deadline, v, r, s } = permitSignature;
+  const { owner, spender, value, deadline, v, r, s } = permitMessage;
 
   // Send meta-tx through relayer to the forwarder contract
-  const gasLimit = 100000;
-  return await permitContract.permit(
-    owner,
-    spender,
-    tokenAmountToApprove,
-    deadline,
-    v,
-    r,
-    s,
-    { gasLimit }
-  );
+  return await permitContract.permit(owner, spender, value, deadline, v, r, s);
 }
 
 async function handler(event) {
@@ -161,21 +151,16 @@ async function handler(event) {
 
   if (type == "permit") {
     // ERC20 Permit
-    const { permitSignature, permitContractAddress, tokenAmountToApprove } =
-      event.request.body;
+    const { request, signature } = event.request.body;
 
     // Initialize permitContract
     const permitContract = new ethers.Contract(
-      permitContractAddress,
+      request.to,
       erc20PermitAbi,
       signer
     );
 
-    tx = await relayTokenApproval(
-      permitContract,
-      permitSignature,
-      tokenAmountToApprove
-    );
+    tx = await relayTokenApproval(permitContract, request, signature);
   } else if (type == "forward") {
     // Gasless tx
     const { request, signature } = event.request.body;
