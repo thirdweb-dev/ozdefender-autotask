@@ -174,8 +174,13 @@ async function handler(event) {
 
     console.log(`Relaying`, request);
     console.log(`Signature`, signature);
+    
+    // fix ledger live where signature result in v = 0, 1.
+    const fixedSig = ethers.utils.joinSignature(ethers.utils.splitSignature(signature));
+    
+    console.log(`Fixed Signature`, fixedSig);
 
-    tx = await relayGeneric(forwarder, request, signature);
+    tx = await relayGeneric(forwarder, request, fixedSig);
   } else {
     throw new Error(
       `Invalid gasless transaction type. Provide type 'permit' or 'forwarder'.`
