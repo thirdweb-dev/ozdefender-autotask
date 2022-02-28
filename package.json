@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nftlabs/ozdefender-autotask.git"
+    "url": "git+https://github.com/thirdweb-dev/ozdefender-autotask.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nftlabs/ozdefender-autotask/issues"
+    "url": "https://github.com/thirdweb-dev/ozdefender-autotask/issues"
   },
-  "homepage": "https://github.com/nftlabs/ozdefender-autotask#readme"
+  "homepage": "https://github.com/thirdweb-dev/ozdefender-autotask#readme"
 }
