@@ -4,6 +4,9 @@ const {
   DefenderRelayProvider,
 } = require("defender-relay-client/lib/ethers");
 
+/**
+ *  NOTE FOR GOERLI: replace `ForwarderAddress` with value "0x5001A14CA6163143316a7C614e30e6041033Ac20"
+*/
 const ForwarderAddress = "0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81";
 const speed = "fastest";
 
