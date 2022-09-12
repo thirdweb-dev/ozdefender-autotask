@@ -1,9 +1,39 @@
 ## Gasless Transaction
 
-### Forwarder Address on all supported chains.
+1. Copy paste the handler code into OpenZeppelin Autotask.
+2. Find suitable forwarder address from below, and paste into `ForwarderAddress` variable. 
+3. Connect Autotask to an OpenZeppelin Relayer.
+
+
+### List of Forwarder Addresses on all supported chains.
 ```
 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81
 ```
+**Note**: EOA Forwarders are required for `Pack` contract for security reasons. This forwarder allows only an EOA to send transactions. Users should use EOA forwarders as listed below for `Pack` since other forwarders may not work with this contract.
 
-1. Copy paste the handler code into OpenZeppelin Autotask.
-2. Connect Autotask to an OpenZeppelin Relayer.
+#### Testnets
+
+| Network | Forwarder | EOA Forwarder |
+| --- | --- | --- |
+| Rinkeby | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0x0bBA31EAf82C649C0B9579F5F44374C74F4605Ea |
+| Goerli | 0x5001A14CA6163143316a7C614e30e6041033Ac20 | 0xe73c50cB9c5B378627ff625BB6e6725A4A5D65d2 |
+| Polygon Mumbai | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0xb1A2883fc4d287d9cB8Dbb96cFF60C76BEf2D250 |
+| Avalanche Fuji Testnet | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0xe73c50cB9c5B378627ff625BB6e6725A4A5D65d2 |
+| Fantom Testnet | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0x42D3048b595B6e1c28a588d70366CcC2AA4dB47b |
+| Arbitrum Rinkeby Testnet | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0xE1eE43D23f247b6A9aF81fcE2766E76709482728 |
+| Arbitrum Goerli Testnet | 0x8cbc8B5d71702032904750A66AEfE8B603eBC538 | 0x119704314Ef304EaAAE4b3c7C9ABd59272A28310 |
+| Optimism Kovan Testnet | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | 0xE8dd2Ff0212F86d3197b4AfDC6dAC6ac47eb10aC |
+| Optimism Goerli Testnet | 0x8cbc8B5d71702032904750A66AEfE8B603eBC538 | 0x119704314Ef304EaAAE4b3c7C9ABd59272A28310 |
+| Binance SmartChain Testnet | 0x8cbc8B5d71702032904750A66AEfE8B603eBC538 | 0x7e80648EB2071E26937F9D42A513ccf4815fc702 |
+
+#### Mainnets
+
+| Network | Forwarder | EOA Forwarder |
+| --- | --- | --- |
+| Ethereum Mainnet | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Polygon | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Avalanche | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Fantom | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Arbitrum | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Optimism | 0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81 | - |
+| Binance SmartChain Mainnet | 0x8cbc8B5d71702032904750A66AEfE8B603eBC538 | - |
