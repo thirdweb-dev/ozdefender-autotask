@@ -5,9 +5,12 @@ const {
 } = require("defender-relay-client/lib/ethers");
 
 /**
- *  NOTE FOR GOERLI: replace `ForwarderAddress` with value "0x5001A14CA6163143316a7C614e30e6041033Ac20"
+ *  NOTE: - Please check README file to find suitable forwarder address for your application.
+ *          The forwarder addresses may be different for different chains.
+ *        
+ *        - For the `Pack` contract, use `EOA Forwarder`
 */
-const ForwarderAddress = "0xc82BbE41f2cF04e3a8efA18F7032BDD7f6d98a81";
+const ForwarderAddress = ""; // Check README for forwarder addresses
 const speed = "fastest";
 
 const ForwarderAbi = [
