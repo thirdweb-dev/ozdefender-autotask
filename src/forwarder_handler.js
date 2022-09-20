@@ -5,10 +5,10 @@ const {
 } = require("defender-relay-client/lib/ethers");
 
 /**
- *  NOTE: Please check README file to find suitable forwarder address for your application.
- *        The forwarder addresses may be different for different chains.
- *        Contracts such as `Pack` require EOA-Forwarders.
- *  
+ *  NOTE: - Please check README file to find suitable forwarder address for your application.
+ *          The forwarder addresses may be different for different chains.
+ *        
+ *        - For the `Pack` contract, use `EOA Forwarder`
 */
 const ForwarderAddress = ""; // Check README for forwarder addresses
 const speed = "fastest";
