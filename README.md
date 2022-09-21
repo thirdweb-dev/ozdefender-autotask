@@ -1,8 +1,7 @@
 ## Gasless Transaction
 
 1. Copy paste the handler code into OpenZeppelin Autotask.
-2. Find suitable forwarder address from below, and paste into `ForwarderAddress` variable. 
-3. Connect Autotask to an OpenZeppelin Relayer.
+2. Connect Autotask to an OpenZeppelin Relayer.
 
 
 ### List of Forwarder Addresses on all supported chains.

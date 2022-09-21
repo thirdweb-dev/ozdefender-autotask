@@ -4,13 +4,6 @@ const {
   DefenderRelayProvider,
 } = require("defender-relay-client/lib/ethers");
 
-/**
- *  NOTE: - Please check README file to find suitable forwarder address for your application.
- *          The forwarder addresses may be different for different chains.
- *        
- *        - For the `Pack` contract, use `EOA Forwarder`
-*/
-const ForwarderAddress = ""; // Check README for forwarder addresses
 const speed = "fastest";
 
 const ForwarderAbi = [
@@ -169,11 +162,12 @@ async function handler(event) {
     tx = await relayTokenApproval(permitContract, request, signature);
   } else if (type == "forward") {
     // Gasless tx
-    const { request, signature } = event.request.body;
+    const { request, signature, forwarderAddress } = event.request.body;
+    console.log(forwarderAddress);
 
     // Initialize forwarder contract
     const forwarder = new ethers.Contract(
-      ForwarderAddress,
+      forwarderAddress,
       ForwarderAbi,
       signer
     );
