@@ -4,7 +4,21 @@ const {
   DefenderRelayProvider,
 } = require("defender-relay-client/lib/ethers");
 
-const speed = "fastest";
+// An allowlist for contract that's allowed for gasless transactions
+// You should replace this with your own contract address. Leave it empty to allow all contracts
+// NOTE: Make sure the addresses are in lowercase.
+const ALLOWED_TARGET_CONTRACT_ADDRESSES = [];
+
+// An allowlist for allowed forwarder contract (See README)
+// You should replace this with your own trusted fowarder address. Leave it empty to allow all forwarder
+// NOTE: Make sure the addresses are in lowercase. ForwarderEOA address is not included
+const ALLOWED_FORWARDER_ADDRESSES = [
+  "0xc82bbe41f2cf04e3a8efa18f7032bdd7f6d98a81",
+  "0x8cbc8b5d71702032904750a66aefe8b603ebc538", // arbitrum goerli, optimism goerli, binance testnet, bsc mainnet
+  "0x5001a14ca6163143316a7c614e30e6041033ac20", // goerli
+];
+
+const TRANSACTION_SPEED = "fastest";
 
 const ForwarderAbi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -135,22 +149,32 @@ async function relayTokenApproval(
 async function handler(event) {
   // Parse webhook payload
   if (!event.request || !event.request.body) throw new Error(`Missing payload`);
-  const { type } = event.request.body;
+  const { request, signature, type } = event.request.body;
 
-  console.log("Type", type);
+  console.log("Request Body:", event.request.body);
 
   // Initialize Relayer provider and signer, and forwarder contract
   const credentials = { ...event };
   const provider = new DefenderRelayProvider(credentials);
   const signer = new DefenderRelaySigner(credentials, provider, {
-    speed,
+    TRANSACTION_SPEED,
   });
 
   let tx;
 
+  const targetContractAddress = request.to || "";
+
+  if (
+    ALLOWED_TARGET_CONTRACT_ADDRESSES.length > 0 &&
+    !ALLOWED_TARGET_CONTRACT_ADDRESSES.includes(
+      targetContractAddress.toLowerCase()
+    )
+  ) {
+    throw new Error("Invalid target address");
+  }
+
   if (type == "permit") {
     // ERC20 Permit
-    const { request, signature } = event.request.body;
 
     // Initialize permitContract
     const permitContract = new ethers.Contract(
@@ -162,28 +186,36 @@ async function handler(event) {
     tx = await relayTokenApproval(permitContract, request, signature);
   } else if (type == "forward") {
     // Gasless tx
-    const { request, signature, forwarderAddress } = event.request.body;
-    console.log(forwarderAddress);
+    const { forwarderAddress } = event.request.body;
+
+    if (
+      ALLOWED_FORWARDER_ADDRESSES.length > 0 &&
+      !ALLOWED_FORWARDER_ADDRESSES.includes(forwarderAddress.toLowerCase())
+    ) {
+      throw new Error("Invalid forwarder address");
+    }
+
+    console.log(`Relaying`, request);
+    console.log(`Signature`, signature);
+
+    // fix ledger live where signature result in v = 0, 1.
+    const fixedSig = ethers.utils.joinSignature(
+      ethers.utils.splitSignature(signature)
+    );
+
+    console.log(`Fixed Signature`, fixedSig);
 
     // Initialize forwarder contract
-    const forwarder = new ethers.Contract(
+    const forwarderContract = new ethers.Contract(
       forwarderAddress,
       ForwarderAbi,
       signer
     );
 
-    console.log(`Relaying`, request);
-    console.log(`Signature`, signature);
-    
-    // fix ledger live where signature result in v = 0, 1.
-    const fixedSig = ethers.utils.joinSignature(ethers.utils.splitSignature(signature));
-    
-    console.log(`Fixed Signature`, fixedSig);
-
-    tx = await relayGeneric(forwarder, request, fixedSig);
+    tx = await relayGeneric(forwarderContract, request, fixedSig);
   } else {
     throw new Error(
-      `Invalid gasless transaction type. Provide type 'permit' or 'forwarder'.`
+      `Invalid gasless transaction type. Provide type 'permit' or 'forward'.`
     );
   }
 
